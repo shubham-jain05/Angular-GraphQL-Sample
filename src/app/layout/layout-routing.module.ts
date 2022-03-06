@@ -8,7 +8,7 @@ const routes: Routes = [
     component:LayoutComponent,
     children:[
         {
-            path:'pd',
+            path:'custom',
             loadChildren: () =>
             import('src/app/Overview/overview.module').then(
             (m) => m.OverviewModule
@@ -44,7 +44,7 @@ const routes: Routes = [
         },
     ]
   },
-  { path: '', redirectTo: '/dashboard/overview', pathMatch: 'full' },
+  { path: '', redirectTo: '/dashboard/overview/custom', pathMatch: 'full' },
 ];
 
 @NgModule({
