@@ -16,7 +16,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'dashboard',
+    path: 'layout',
     canActivate:[AuthGaurdService],
     loadChildren: () =>
       import('src/app/layout/layout.module').then(

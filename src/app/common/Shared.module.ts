@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageNotFoundComponent } from './componsnts/page-not-found/page-not-found.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -9,7 +10,8 @@ import { PageNotFoundComponent } from './componsnts/page-not-found/page-not-foun
     PageNotFoundComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    HttpClientModule,
   ],
   exports:[
     PageNotFoundComponent

@@ -1,42 +1,43 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent } from '../common/componsnts/page-not-found/page-not-found.component';
 import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
   {
-    path: 'overview',
+    path: 'admin',
     component:LayoutComponent,
     children:[
         {
-            path:'custom',
+            path:'parent',
             loadChildren: () =>
             import('src/app/Overview/overview.module').then(
             (m) => m.OverviewModule
             ),    
         },
         {
-            path:'account',
+            path:'parent',
             loadChildren: () =>
             import('src/app/account/account.module').then(
             (m) => m.AccountModule
             ),    
         },
         {
-            path:'order',
+            path:'parent',
             loadChildren: () =>
             import('src/app/orders/orders.module').then(
               (m) => m.OrdersModule
             ),    
         },
         {
-            path:'users',
+            path:'parent',
             loadChildren: () =>
             import('src/app/users/users.module').then(
               (m) => m.UsersModule
             ),    
         },
         {
-            path:'settings',
+            path:'parent',
             loadChildren: () =>
             import('src/app/settings/settings.module').then(
               (m) => m.SettingsModule
@@ -44,7 +45,8 @@ const routes: Routes = [
         },
     ]
   },
-  { path: '', redirectTo: '/dashboard/overview/custom', pathMatch: 'full' },
+  { path:'404', component:PageNotFoundComponent },
+  { path: '**', redirectTo: '/layout/404', pathMatch: 'full' },
 ];
 
 @NgModule({

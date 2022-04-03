@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HelperService } from 'src/app/common/services/helper.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResetPasswordComponent implements OnInit {
 
-  constructor() { }
+  constructor(public helper:HelperService) { }
 
   ngOnInit(): void {
   }

@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { HttpCallService } from './common/services/http-call.service';
+import {  HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -13,6 +15,7 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
@@ -20,7 +23,14 @@ import { environment } from '../environments/environment';
       registrationStrategy: 'registerWhenStable:30000'
     })
   ],
-  providers: [],
+  providers: [
+    HttpCallService,
+    // EnvServiceProvider,
+    // { provide: HTTP_INTERCEPTORS, useClass: headerInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorIntercept, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
+  ],
+ 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

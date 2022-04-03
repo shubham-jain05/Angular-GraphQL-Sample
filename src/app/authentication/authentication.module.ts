@@ -5,6 +5,11 @@ import { SignupComponent } from './signup/signup.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SharedModule } from '../common/Shared.module';
 import { AuthenticationRoutingModule } from './authentication-root.module';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpLoaderFactory } from '../common/config/config-function';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -15,7 +20,16 @@ import { AuthenticationRoutingModule } from './authentication-root.module';
   imports: [
     CommonModule,
     SharedModule,
-    AuthenticationRoutingModule
-  ]
+    ReactiveFormsModule,
+    NgSelectModule,
+    AuthenticationRoutingModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
+  ],
 })
 export class AuthenticationModule { }

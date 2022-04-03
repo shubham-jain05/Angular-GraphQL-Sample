@@ -4,10 +4,10 @@ import { PersonalDashboardComponent } from "./personal-dashboard/personal-dashbo
 
 const routes: Routes = [
     {
-      path: 'pd',
+      path: 'dashboard',
       component: PersonalDashboardComponent,
     },
-    { path: 'overview/custom', redirectTo: 'overview/custom/pd', pathMatch: 'full' },
+    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   ];
   
   @NgModule({
