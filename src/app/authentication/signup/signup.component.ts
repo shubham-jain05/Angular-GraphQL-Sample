@@ -10,7 +10,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  signUpForm: any;
+  signUpForm!: FormGroup;
   dialCodeList = [] as any;
   isLoading = false;
 
@@ -21,10 +21,12 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
      this.getDropdownData();
      this.signUpForm = this.formBuilder.group({
-      name: new FormControl('', [Validators.required, Validators.email]),
+      name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      phone:  new FormControl('', [Validators.required, Validators.minLength(6)])
+      dialCode: new FormControl('+91', [Validators.required]),
+      phone:  new FormControl('', [Validators.required, Validators.minLength(6)]),
+      agree: new FormControl(false, [Validators.required]),
     });
   }
   
@@ -42,5 +44,26 @@ export class SignupComponent implements OnInit {
         }); 
   }
 
- 
+  onSubmit(){
+    if (this.signUpForm.invalid) {
+      return;
+  }
+  //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.signUpForm.value));
+  const payload = {
+    email:this.signUpForm?.value?.email,
+    password:this.signUpForm?.value?.password,
+    name:this.signUpForm?.value?.name ,
+    phone: this.signUpForm?.value?.dialCode + this.signUpForm?.value?.phone,
+    accessType: 2
+  };
+  this.isLoading = true;
+  this.authService
+      . signUpCall(payload)
+      .subscribe(response =>{
+        this.isLoading = false;
+        console.log(response);  
+      },err=>{
+        console.log(err);
+      });
+  }
 }

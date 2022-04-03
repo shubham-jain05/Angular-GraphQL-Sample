@@ -8,42 +8,61 @@
 					<h2 class="auth-heading text-center mb-4">Sign up to Portal</h2>					
 	
 					<div class="auth-form-container text-start mx-auto">
-						<form class="auth-form auth-signup-form"  [formGroup]="signUpForm">         
+						<form class="auth-form auth-signup-form"  [formGroup]="signUpForm" (ngSubmit)="onSubmit()">         
 							<div class="email mb-3">
-								<label class="sr-only" for="signup-email">Your Name</label>
-								<input id="signup-name" name="signup-name" type="text" class="form-control signup-name" placeholder="Full name" required="required">
+								<label class="sr-only" for="signup-name">Your Name</label>
+								<input id="signup-name" formControlName="name" name="signup-name" type="text" class="form-control signup-name" placeholder="Full name" required="required">
+							    <div *ngIf="f['name'].touched && f['name'].invalid" class="text-danger">
+									<div *ngIf="f['name'].errors && f['name'].errors['required']">Name is required.</div>
+								</div>
 							</div>
 							<div class="email mb-3">
 								<label class="sr-only" for="signup-email">Your Email</label>
-								<input id="signup-email" name="signup-email" type="email" class="form-control signup-email" placeholder="Email" required="required">
+								<input id="signup-email" name="signup-email" formControlName="email" type="email" class="form-control signup-email" placeholder="Email" required="required">
+							    <div *ngIf="f['email'].touched && f['email'].invalid" class="text-danger">
+									<div *ngIf="f['email'].errors && f['email'].errors['required']">Email is required.</div>
+									<div *ngIf="f['email'].errors && f['email'].errors['email']">Please, enter valid email address.</div>
+								</div>
 							</div>
 							<div class="password mb-3">
 								<label class="sr-only" for="signup-password">Password</label>
-								<input id="signup-password" name="signup-password" type="password" class="form-control signup-password" placeholder="Create a password" required="required">
+								<input id="signup-password" formControlName="password" name="signup-password" type="password" class="form-control signup-password" placeholder="Create a password" required="required">
+							    <div *ngIf="f['password'].touched && f['password'].invalid" class="text-danger">
+									<div *ngIf="f['password'].errors && f['password'].errors['required']">Password is required.</div>
+									<div *ngIf="f['password'].errors && f['password'].errors['minlength']">Please, enter valid password address.</div>
+								</div>
 							</div>
 							<div class="input-group mb-3">
+								
 								<ng-select 
 									#MyNgSelect  
-									class="dropdown"          
+									formControlName="dialCode"         
 									bindLabel="code"
 									name="mySelectBox"
 									required
 									[clearable]="false"
 									[style]="{width: '100px'}"
 								>
-									<ng-option   [value]="item?.dial_code"  *ngFor="let item of dialCodeList">
+									<ng-option class="dropdown-item"  style="height:40px" [value]="item?.dial_code"  *ngFor="let item of dialCodeList">
 										<img src="{{item.image}}" width="20px" height="20px"/>
 										{{item?.dial_code}}
 									</ng-option>
 					            </ng-select>
-								<input type="text" class="form-control" aria-label="Text input with dropdown button">
+								<input type="text" class="form-control" placeholder="Phone number" formControlName="phone" aria-label="Text input with dropdown button">
+								<div *ngIf="f['phone'].touched && f['phone'].invalid" class="text-danger">
+									<div *ngIf="f['phone'].errors && f['phone'].errors['required']">Phone number is required.</div>
+									<div *ngIf="f['phone'].errors && f['phone'].errors['minlength']">Please, enter valid password address.</div>
+								</div>
 							  </div>
 							<div class="extra mb-3">
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" value="" id="RememberPassword">
+									<input class="form-check-input" formControlName="agree"  type="checkbox" value="" id="RememberPassword">
 									<label class="form-check-label" for="RememberPassword">
 									I agree to Portal's <a href="#" class="app-link">Terms of Service</a> and <a href="#" class="app-link">Privacy Policy</a>.
 									</label>
+									<div *ngIf="f['agree'].touched && f['phone'].invalid" class="text-danger">
+										<div *ngIf="f['agree'].errors && f['agree'].errors['required']">Please agree terms and services</div>
+									</div>
 								</div>
 							</div><!--//extra-->
 							

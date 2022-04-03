@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
         return;
     }
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.loginForm.value))
     const payload = {
       email:this.loginForm?.value?.email,
       password:this.loginForm?.value?.password  
