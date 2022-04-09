@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { StorageService } from 'src/app/common/services/storage.service';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor() { }
+  isClose = false;
+  
+  constructor(private readonly storage: StorageService,
+    private readonly router:Router) { }
 
   ngOnInit(): void {
   }
+  
+  openSidePane(value:boolean){
+    this.isClose = value;
+  }
 
+  logout(){
+      this.storage.clearAllValueFromStorage();
+      this.router.navigate(['']);  
+  }
 }

@@ -13,6 +13,7 @@ export class SignupComponent implements OnInit {
   signUpForm!: FormGroup;
   dialCodeList = [] as any;
   isLoading = false;
+  submited = false;
 
   constructor(public helper:HelperService, 
               private authService: AuthService,
@@ -21,11 +22,11 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
      this.getDropdownData();
      this.signUpForm = this.formBuilder.group({
-      name: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      email: new FormControl('', [Validators.required, Validators.email,Validators.maxLength(50)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(50)]),
       dialCode: new FormControl('+91', [Validators.required]),
-      phone:  new FormControl('', [Validators.required, Validators.minLength(6)]),
+      phone:  new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]),
       agree: new FormControl(false, [Validators.required]),
     });
   }
@@ -44,7 +45,10 @@ export class SignupComponent implements OnInit {
         }); 
   }
 
+ 
+
   onSubmit(){
+    this.submited = true;
     if (this.signUpForm.invalid) {
       return;
   }
