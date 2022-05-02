@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { HelperService } from 'src/app/common/services/helper.service';
 import { HttpCallService } from 'src/app/common/services/http-call.service';
 import { StorageService } from 'src/app/common/services/storage.service';
+import { EnvService } from 'src/environments/env.service';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     // private translate: TranslateService,
+    private env:EnvService,
      public helper:HelperService,
      private formBuilder: FormBuilder,
      public auth: AuthService,
@@ -39,6 +41,11 @@ export class LoginComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    console.log('env url', this.env?.API_URL);
+    const token = this.storage.getValueFromLocalStorage('token'); 
+    if(token){
+      this.router.navigate(['/layout/admin/parent/dashboard']);
+    }
   }
   
   // convenience getter for easy access to form fields

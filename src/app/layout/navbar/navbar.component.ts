@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
-import { values } from 'lodash';
 
 @Component({
   selector: 'app-navbar',
@@ -67,8 +66,20 @@ export class NavbarComponent implements OnInit {
 
   constructor(private router: Router) { }
 
+
   ngOnInit(): void {
     this.checkActiveRoute();
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+  }
+
+  public getScreenWidth: any;
+  public getScreenHeight: any;
+  
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
   }
 
   setActiveRoute(path: string, param: any) {
@@ -94,6 +105,7 @@ export class NavbarComponent implements OnInit {
   closeSidePane(value: boolean){
     this.isClose = !value;
     this.closePanel.emit(!value);
+    console.log('vale', !this.isClose)
   }
 
 }

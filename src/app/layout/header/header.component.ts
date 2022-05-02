@@ -18,6 +18,8 @@ export class HeaderComponent implements OnInit {
   
   openSidePane(value:boolean){
     this.isClose = value;
+    console.log('lovale', this.isClose)
+    
   }
 
   logout(){

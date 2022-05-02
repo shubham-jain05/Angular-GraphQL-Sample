@@ -13,7 +13,6 @@ import { HeaderConstant } from '../constant/headerConsant';
 @Injectable()
 export class headerInterceptor implements HttpInterceptor {
   constructor(
-    private readonly headerConstant: HeaderConstant,
     private readonly storage: StorageService
   ) {}
 
@@ -21,35 +20,23 @@ export class headerInterceptor implements HttpInterceptor {
     httpRequest: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // if (!!this.storage.getValueFromLocalStorage('token')) {
-    //   const token = 'bearer '.concat(
-    //     this.storage.getValueFromLocalStorage('token').token
-    //   );
-    //   const LoginUser = this.storage.getValueFromLocalStorage('user');
-    //   if (!!LoginUser) {
-    //     httpRequest = httpRequest.clone({
-    //       headers: httpRequest.headers
-    //         .set(this.headerConstant.authorization, token)
-    //         .set(this.headerConstant.request, Guid.create().toString())
-    //         .set(this.headerConstant.userId, LoginUser['AdminId'])
-    //         .set(this.headerConstant.actionBy, LoginUser['email']),
-    //     });
-    //   } else {
-    //     httpRequest = httpRequest.clone({
-    //       headers: httpRequest.headers
-    //         .set(this.headerConstant.authorization, token)
-    //         .set(this.headerConstant.request, Guid.create().toString()),
-    //     });
-    //   }
-    // } else {
-    //   httpRequest = httpRequest.clone({
-    //     headers: httpRequest.headers.set(
-    //       this.headerConstant.request,
-    //       Guid.create().toString()
-    //     ),
-    //   });
-    //}
+
+    if (!!this.storage.getValueFromLocalStorage('token')) {
+      const token = 'Berror '.concat(
+        this.storage.getValueFromLocalStorage('token')
+      );
+    if (!!token) {
+        httpRequest = httpRequest.clone({
+          headers: httpRequest.headers
+            .set(HeaderConstant.authorization, token)
+            // .set(this.headerConstant.request, Guid.create().toString())
+            // .set(this.headerConstant.userId, LoginUser['AdminId'])
+            // .set(this.headerConstant.actionBy, LoginUser['email']),
+        });
+      }
+    } 
 
     return next.handle(httpRequest);
+    
   }
 }

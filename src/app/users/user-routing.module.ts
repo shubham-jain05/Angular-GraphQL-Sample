@@ -7,6 +7,10 @@ const routes: Routes = [
       path: 'manageUser',
       component: ManageUserComponent ,
     },
+    {
+      path: 'manageUser/:type/:id',
+      component: ManageUserComponent ,
+    },
     { path: '', redirectTo: '/manageUser', pathMatch: 'full' },
   ];
   

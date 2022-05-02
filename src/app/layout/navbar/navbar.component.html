@@ -1,4 +1,4 @@
-<div id="app-sidepanel" class="app-sidepanel" [class]="!isClose ? 'sidepanel-hidden': 'sidepanel-visible'"> 
+<div id="app-sidepanel" class="app-sidepanel" [class]="getScreenWidth < 1199 && !isClose ? 'sidepanel-hidden': 'sidepanel-visible'"> 
     <div id="sidepanel-drop" class="sidepanel-drop"></div>
     <div class="sidepanel-inner d-flex flex-column">
         <a  id="sidepanel-close" class="sidepanel-close d-xl-none" (click)="closeSidePane(true)">&times;</a>
