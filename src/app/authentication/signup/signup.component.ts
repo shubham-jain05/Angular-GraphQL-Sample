@@ -10,9 +10,10 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
-  signUpForm: any;
+  signUpForm!: FormGroup;
   dialCodeList = [] as any;
   isLoading = false;
+  submited = false;
 
   constructor(public helper:HelperService, 
               private authService: AuthService,
@@ -21,10 +22,12 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
      this.getDropdownData();
      this.signUpForm = this.formBuilder.group({
-      name: new FormControl('', [Validators.required, Validators.email]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      phone:  new FormControl('', [Validators.required, Validators.minLength(6)])
+      name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      email: new FormControl('', [Validators.required, Validators.email,Validators.maxLength(50)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(50)]),
+      dialCode: new FormControl('+91', [Validators.required]),
+      phone:  new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]),
+      agree: new FormControl(false, [Validators.required]),
     });
   }
   
@@ -43,4 +46,28 @@ export class SignupComponent implements OnInit {
   }
 
  
+
+  onSubmit(){
+    this.submited = true;
+    if (this.signUpForm.invalid) {
+      return;
+  }
+  //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.signUpForm.value));
+  const payload = {
+    email:this.signUpForm?.value?.email,
+    password:this.signUpForm?.value?.password,
+    name:this.signUpForm?.value?.name ,
+    phone: this.signUpForm?.value?.dialCode + this.signUpForm?.value?.phone,
+    accessType: 2
+  };
+  this.isLoading = true;
+  this.authService
+      . signUpCall(payload)
+      .subscribe(response =>{
+        this.isLoading = false;
+        console.log(response);  
+      },err=>{
+        console.log(err);
+      });
+  }
 }

@@ -9,7 +9,7 @@
 						<form class="auth-form login-form"  [formGroup]="loginForm" (ngSubmit)="onSubmit()">         
 							<div class="email mb-3">
 								<label class="sr-only" for="signin-email">Email</label>
-								<input id="signin-email" name="signin-email" type="email" class="form-control signin-email" placeholder="Email address" formControlName="email"  required="required">
+								<input id="signin-email" name="signin-email" type="email" class="form-control signin-email" placeholder="Email address" formControlName="email"  required>
 								<div *ngIf="f['email'].touched && f['email'].invalid" class="text-danger">
 									<div *ngIf="f['email'].errors && f['email'].errors['required']">Email is required.</div>
 									<div *ngIf="f['email'].errors && f['email'].errors['email']">Please, enter valid email address.</div>
@@ -39,10 +39,15 @@
 								</div><!--//extra-->
 							</div><!--//form-group-->
 							<div class="text-center">
-								<button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">
-									<!-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-									Loading... -->
-									Log In
+								<button [disabled]="this.loginForm?.invalid" type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">
+									<ng-container *ngIf="isLoading else content">
+										<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+										Loading...
+									</ng-container>
+									<ng-template #content>
+										Log In
+									</ng-template>
+									
 								</button>
 							</div>
 						</form>
@@ -56,6 +61,7 @@
 			    <footer class="app-auth-footer">
 				    <div class="container text-center py-3">
 				        <!-- Empty for purpose -->
+
 				    </div>
 			    </footer><!--//app-auth-footer-->	
 		    </div><!--//flex-column-->   
@@ -70,6 +76,7 @@
 				    <div class="h-100"></div>
 				    <div class="overlay-content p-3 p-lg-4 rounded">
 					    <!-- empty for purpose -->
+						<p>{{message}}</p>
 					</div>
 				</div>
 		    </div><!--//auth-background-overlay-->

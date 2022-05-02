@@ -22,3 +22,8 @@
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 0;
 }
+
+
+::ng-deep .ng-select.ng-select-single .ng-select-container {
+  height: 40px !important;
+}

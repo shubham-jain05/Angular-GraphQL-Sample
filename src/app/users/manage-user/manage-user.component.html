@@ -1,0 +1,171 @@
+<div class="app-content pt-3 p-md-3 p-lg-4">
+    <div class="container-xl">
+        
+        <div class="row g-3 mb-4 align-items-center justify-content-between">
+            <div class="col-auto">
+                <h1 class="app-page-title mb-0">Profiles</h1>
+            </div>
+            <div class="col-auto">
+                 <div class="page-utilities">
+                    <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                        <div class="col-auto">
+                            <form class="table-search-form row gx-1 align-items-center">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" style="height:35px;" placeholder="Search this blog">
+                                    <div class="input-group-append">
+                                      <button class="btn btn-secondary" type="button">
+                                        <i class="bi bi-search"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                            </form>
+                            
+                        </div><!--//col-->
+                        <div class="col-auto">
+                            <ng-select
+                                [clearable]="false"
+                                [items]="pageSize" 
+                                bindLabel="label" 
+                                bindValue="value" 
+                                [(ngModel)]="selectedPageSize"
+                                ></ng-select>
+                           
+                        </div>
+                        <div class="col-auto">						    
+                            <a class="btn app-btn-secondary" href="#">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-download me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+  <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+</svg>
+                                Download CSV
+                            </a>
+                        </div>
+                    </div><!--//row-->
+                </div><!--//table-utilities-->
+            </div><!--//col-auto-->
+        </div><!--//row-->
+       
+        
+        <nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
+            <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-bs-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">All</a>
+            <a class="flex-sm-fill text-sm-center nav-link"  id="orders-paid-tab" data-bs-toggle="tab" href="#orders-paid" role="tab" aria-controls="orders-paid" aria-selected="false">Edit</a>
+        </nav>
+        
+        
+        <div class="tab-content" id="orders-table-tab-content">
+            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive">
+                            <table class="table app-table-hover mb-0 text-left">
+                                <thead>
+                                    <tr>
+                                        <th class="cell"></th>
+                                        <th class="cell">User Name</th>
+                                        <th class="cell">Name</th>
+                                        <th class="cell">Email</th>
+                                        <th class="cell">Phone</th>
+                                        <th class="cell">Profile</th>
+                                        <th class="cell">Status</th>
+                                        <th class="cell">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of profileList?.users | paginate: { itemsPerPage: selectedPageSize , currentPage: p }">
+                                        <td class="cell"></td>
+                                        <td class="cell">{{item?.username}}</td>
+                                        <td class="cell">{{item?.name}}</td>
+                                        <td class="cell"><span class="truncate">{{item?.email}}</span></td>
+                                        <td class="cell">{{item?.phone}}</td>
+                                        <td class="cell"><span>{{item?.profile}}</span></td>
+                                        <td class="cell"><span  class="badge bg-info" >{{item?.status || 'NA'}}</span></td>
+                                        <td class="cell">
+                                            <a class="btn-sm app-btn-secondary " style="margin-right:5px;" (click)="onAction(item, 'edit')"><i class="bi bi-pencil"></i></a>
+                                            <a class="btn-sm app-btn-secondary " (click)="onAction(item, 'delete')"><i class="bi bi-trash"></i></a>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!--//table-responsive-->
+                       
+                    </div><!--//app-card-body-->		
+                </div><!--//app-card-->
+                <nav class="app-pagination">
+                    <pagination-controls class="pagination justify-content-center" (pageChange)="p = $event"></pagination-controls>
+                </nav><!--//app-pagination-->
+                
+            </div><!--//tab-pane-->
+            
+            <div class="tab-pane fade" id="orders-paid" role="tabpanel" aria-labelledby="orders-paid-tab">
+                <div class="app-card app-card-orders-table mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive">
+                            
+                            <table class="table mb-0 text-left">
+                                <thead>
+                                    <tr>
+                                        <th class="cell"></th>
+                                        <th class="cell">User Name</th>
+                                        <th class="cell">Name</th>
+                                        <th class="cell">Email</th>
+                                        <th class="cell">Phone</th>
+                                        <th class="cell">Profile</th>
+                                        <th class="cell">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="!!profile">
+                                        <td class="cell"></td>
+                                        <td class="cell"><input id="username" [(ngModel)]="profile.username" /></td>
+                                        <td class="cell"><input id="name" [(ngModel)]="profile.name" /></td>
+                                        <td class="cell"><input id="email" [(ngModel)]="profile.email"/></td>
+                                        <td class="cell"><input id="phone" [(ngModel)]="profile.phone" /></td>
+                                        <td class="cell"><input id="profile" [(ngModel)]="profile.profile" /></td>
+                                        <td class="cell"><button class="btn btn-primary" (click)=" editUserProfile(profile?._id)">Edit</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!--//table-responsive-->
+                    </div><!--//app-card-body-->		
+                </div><!--//app-card-->
+            </div><!--//tab-pane-->
+            
+        </div><!--//tab-content-->
+        
+        <ngx-loading [show]="loading" [config]="{ animationType: ngxLoadingAnimationType.pulse,
+            backdropBackgroundColour: 'rgba(255,255,255,0.3)', backdropBorderRadius: '10px',
+            primaryColour: '#000249', secondaryColour: '#0F3492', tertiaryColour: '#DD1717' }"></ngx-loading>   
+        
+    </div><!--//container-fluid-->
+</div><!--//app-content-->
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Recipient:</label>
+              <input type="text" class="form-control" id="recipient-name">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Send message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
