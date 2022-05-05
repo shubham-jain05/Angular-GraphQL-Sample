@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'Enterprise-Scalable-Dashboard'`, () => {
+  it(`should have as title 'angular-grapql-sample'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('Enterprise-Scalable-Dashboard');
+    expect(app.title).toEqual('angular-grapql-sample');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('Enterprise-Scalable-Dashboard app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('angular-grapql-sample app is running!');
   });
 });
