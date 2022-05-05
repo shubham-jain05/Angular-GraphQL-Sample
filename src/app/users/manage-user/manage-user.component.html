@@ -47,8 +47,8 @@
        
         
         <nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
-            <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-bs-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">All</a>
-            <a class="flex-sm-fill text-sm-center nav-link"  id="orders-paid-tab" data-bs-toggle="tab" href="#orders-paid" role="tab" aria-controls="orders-paid" aria-selected="false">Edit</a>
+            <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" #userTab data-bs-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">All Users</a>
+            <a class="flex-sm-fill text-sm-center nav-link"  id="orders-paid-tab" #postTab data-bs-toggle="tab" href="#orders-paid" role="tab" aria-controls="orders-paid" aria-selected="false">All Posts</a>
         </nav>
         
         
@@ -71,20 +71,34 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of profileList?.users | paginate: { itemsPerPage: selectedPageSize , currentPage: p }">
-                                        <td class="cell"></td>
-                                        <td class="cell">{{item?.username}}</td>
-                                        <td class="cell">{{item?.name}}</td>
-                                        <td class="cell"><span class="truncate">{{item?.email}}</span></td>
-                                        <td class="cell">{{item?.phone}}</td>
-                                        <td class="cell"><span>{{item?.profile}}</span></td>
-                                        <td class="cell"><span  class="badge bg-info" >{{item?.status || 'NA'}}</span></td>
-                                        <td class="cell">
-                                            <a class="btn-sm app-btn-secondary " style="margin-right:5px;" (click)="onAction(item, 'edit')"><i class="bi bi-pencil"></i></a>
-                                            <a class="btn-sm app-btn-secondary " (click)="onAction(item, 'delete')"><i class="bi bi-trash"></i></a>
-
-                                        </td>
-                                    </tr>
+                                    <ng-container *ngIf="!!profile else AllProfile">
+                                        <tr>
+                                            <td class="cell"></td>
+                                            <td class="cell"><input id="username" [(ngModel)]="profile.username" /></td>
+                                            <td class="cell"><input id="name" [(ngModel)]="profile.name" /></td>
+                                            <td class="cell"><input id="email" [(ngModel)]="profile.email"/></td>
+                                            <td class="cell"><input id="phone" [(ngModel)]="profile.phone" /></td>
+                                            <td class="cell"><input id="profile" [(ngModel)]="profile.profile" /></td>
+                                            <td class="cell"><button class="btn btn-primary" (click)=" editUserProfile(profile?._id)">Edit</button></td>
+                                        </tr>
+                                    </ng-container>                                        
+                                     <ng-template #AllProfile>
+                                        <tr *ngFor="let item of profileList?.users | paginate: { itemsPerPage: selectedPageSize , currentPage: p }">
+                                            <td class="cell"></td>
+                                            <td class="cell">{{item?.username}}</td>
+                                            <td class="cell">{{item?.name}}</td>
+                                            <td class="cell"><span class="truncate">{{item?.email}}</span></td>
+                                            <td class="cell">{{item?.phone}}</td>
+                                            <td class="cell"><span>{{item?.profile}}</span></td>
+                                            <td class="cell"><span  class="badge bg-info" >{{item?.status || 'NA'}}</span></td>
+                                            <td class="cell">
+                                                <a class="btn-sm app-btn-secondary " style="margin-right:5px;" (click)="onAction(item, 'edit')"><i class="bi bi-pencil"></i></a>
+                                                <a class="btn-sm app-btn-secondary " (click)="onAction(item, 'delete')"><i class="bi bi-trash"></i></a>
+    
+                                            </td>
+                                        </tr>
+                                     </ng-template>
+                                   
                                 </tbody>
                             </table>
                         </div><!--//table-responsive-->
@@ -106,24 +120,33 @@
                                 <thead>
                                     <tr>
                                         <th class="cell"></th>
-                                        <th class="cell">User Name</th>
-                                        <th class="cell">Name</th>
-                                        <th class="cell">Email</th>
-                                        <th class="cell">Phone</th>
-                                        <th class="cell">Profile</th>
-                                        <th class="cell">Status</th>
+                                        <th class="cell">Tittle</th>
+                                        <th class="cell">Description</th>
+                                        <th class="cell">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngIf="!!profile">
+                                   <ng-container *ngIf="!!newPost else Allpost">
+                                    <tr>
                                         <td class="cell"></td>
-                                        <td class="cell"><input id="username" [(ngModel)]="profile.username" /></td>
-                                        <td class="cell"><input id="name" [(ngModel)]="profile.name" /></td>
-                                        <td class="cell"><input id="email" [(ngModel)]="profile.email"/></td>
-                                        <td class="cell"><input id="phone" [(ngModel)]="profile.phone" /></td>
-                                        <td class="cell"><input id="profile" [(ngModel)]="profile.profile" /></td>
-                                        <td class="cell"><button class="btn btn-primary" (click)=" editUserProfile(profile?._id)">Edit</button></td>
+                                        <td class="cell"><input id="title" [(ngModel)]="newPost.title" /></td>
+                                        <td class="cell"><input id="content" [(ngModel)]="newPost.content" /></td>
+                                        <td class="cell">
+                                            <button class="btn btn-primary" (click)="updateGraphql()">Edit</button>
+                                        </td>
                                     </tr>
+                                   </ng-container> 
+                                   <ng-template #Allpost>
+                                        <tr *ngFor="let item of posts?.posts">
+                                            <td class="cell"></td>
+                                            <td class="cell">{{item?.title}}</td>
+                                            <td class="cell">{{item?.content}}</td>
+                                            <td class="cell">
+                                                <a class="btn-sm app-btn-secondary " style="margin-right:5px;" (click)=" onActionPost(item, 'edit')"><i class="bi bi-pencil"></i></a>
+                                                <a class="btn-sm app-btn-secondary " (click)=" onActionPost(item, 'delete')"><i class="bi bi-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                   </ng-template>
                                 </tbody>
                             </table>
                         </div><!--//table-responsive-->
